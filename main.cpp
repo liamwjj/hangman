@@ -59,7 +59,7 @@ int main(){
     int random = rand() % list.size(); //randomise the word
     string word = list[random];
     
-    
+    cout << "Welcome to Hangman!" << endl;
     printoptions();
 
     while (guesses <= 10) { 
