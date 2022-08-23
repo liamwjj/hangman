@@ -52,24 +52,30 @@ void printword(const string word, const vector<char> cg) // function to print
 
 int main()
 {
+    bool isGameRunning{true};                                                                              // turns the game on or off
+    const int maxguesses{10};                                                                              // max number of guess before the user loses
     char input;                                                                                            // for user's letter guesses
     int choice;                                                                                            // for user choice
     string wordinput;                                                                                      // for when user wants to guess the entire word
     vector<char> guessedchar;                                                                              // array for all the letters the user have guessed
     vector<string> list{"special", "random", "roast", "firetruck", "throw", "trend", "blast", "gasoline"}; // list of possible questions
     vector<char> correctguesses;                                                                           // letters that were guessed correctly
-    int guesses;                                                                                           // number of guesses by the user
+    int guesses{0};                                                                                        // number of guesses by the user
     srand(time(NULL));
     int random = rand() % list.size(); // randomise the word
     string word = list[random];
     printoptions(); // to print the options
     // Start Code
-    while (guesses <= 10)
+    while (isGameRunning == false) // when game is not running
     {
-        cout << "Remaining Guesses: " << 10 - guesses << endl;
+        return 0;
+    }
+    while (guesses <= maxguesses && isGameRunning == true) // for when game is running
+    {    
+        cout << "Remaining Guesses: " << maxguesses - guesses << endl;
         print(guesses); // print hangman
         cout << endl;
-        if (guesses == 10) // if user has lost the game
+        if (guesses == maxguesses) // if user has lost the game
         {
             cout << "\nMission Failed. We'll get them next time." << endl;
             cout << "\nThe word is " << word << "." << endl;
@@ -82,7 +88,6 @@ int main()
                 {
                     guesses = 0;
                     guessedchar.clear();
-                    srand(time(NULL));
                     int random = rand() % list.size(); // randomise the word
                     string word = list[random];
                     printoptions();
@@ -90,7 +95,7 @@ int main()
                 }
                 else if (input == 'n' || input == 'N')
                 {
-                    return 0;
+                    isGameRunning = false;
                 }
                 else
                 {
@@ -98,7 +103,7 @@ int main()
                 }
             }
         }
-        else if (guesses < 10) // if user still has guesses remaining
+        else if (guesses < maxguesses) // if user still has guesses remaining
         {
             cout << "The word is " << word.length() << " characters long." << endl;
             printword(word, correctguesses); // print the question
@@ -131,7 +136,7 @@ int main()
             }
             else
             {
-                guesses += 1;
+                guesses++;
                 guessedchar.push_back(input);
                 cout << "Incorrect letter! Try again." << endl;
             }
@@ -148,7 +153,6 @@ int main()
                     {
                         guesses = 0;
                         guessedchar.clear();
-                        srand(time(NULL));
                         int random = rand() % list.size(); // randomise the word
                         string word = list[random];
                         printoptions();
@@ -156,7 +160,7 @@ int main()
                     }
                     else if (input == 'n' || input == 'N')
                     {
-                        return 0;
+                        isGameRunning = false;
                     }
                     else
                     {
@@ -189,7 +193,7 @@ int main()
                     }
                     else if (input == 'n' || input == 'N')
                     {
-                        return 0;
+                        isGameRunning = false;
                     }
                     else
                     {
@@ -222,10 +226,7 @@ int main()
             break;
         case 5: // when user quits the game
             cout << "Quitting Game..." << endl;
-            cout << "Press any key to close the program" << endl;
-            cin.ignore();
-            cin.get();
-            return 0;
+            isGameRunning = false;
             break;
         case 6: // FOR TESTING ONLY, checks current word
             cout << word << "\n"
